@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 import pytest
-from main import app
+from app.main import app
 
 # Utilisation de TestClient pour tester l'application FastAPI
 @pytest.fixture
