@@ -12,14 +12,27 @@ class Post(BaseModel):
 
 @app.get("/")
 async def root():
+    """
+    Page d'accueil
+    :return:
+    """
     return {"message": "Hello World"}
 
 
 @app.get("/posts/")
 async def get_posts():
+    """
+    Get all posts
+    :return:
+    """
     return {"message": f"all posts"}
 
 
 @app.post("/posts/")
 async def save_post(new_post: Post):
+    """
+    Save a post
+    :param new_post:
+    :return:
+    """
     return {"message": f"Hello {new_post.model_dump_json()}"}

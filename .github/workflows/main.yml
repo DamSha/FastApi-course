@@ -1,4 +1,4 @@
-name: test
+name: test and deploy
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  test:
+  run_tests:
     runs-on: ubuntu-latest
     steps:
       #----------------------------------------------
@@ -31,7 +31,7 @@ jobs:
           installer-parallel: true
 
       #----------------------------------------------
-      #       load cached venv if cache exists
+      #  load cached venv if cache exists
       #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
@@ -46,14 +46,22 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
       #----------------------------------------------
-      # install your root project, if required
+      # install root project, if required
       #----------------------------------------------
       - name: Install project
         run: poetry install --no-interaction
       #----------------------------------------------
-      #              run test suite
+      #  run test suite
       #----------------------------------------------
       - name: Run tests
         run: |
           source .venv/bin/activate
           pytest tests/
+#
+#  deploy:
+#    runs-on: ubuntu-latest
+#    steps:
+#      #----------------------------------------------
+#      # TODO : choose where to deploy
+#      # AWS ECS/EC2/Lambda, Heroku, Api Hoster (RapidAPI...) ?
+#      #----------------------------------------------
