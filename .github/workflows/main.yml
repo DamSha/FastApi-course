@@ -8,6 +8,8 @@ on:
 jobs:
   run_tests:
     runs-on: ubuntu-latest
+    environment:
+      name: testing
     steps:
       #----------------------------------------------
       #       check-out repo and set-up python
@@ -65,3 +67,32 @@ jobs:
 #      # TODO : choose where to deploy
 #      # AWS ECS/EC2/Lambda, Heroku, Api Hoster (RapidAPI...) ?
 #      #----------------------------------------------
+# opt 1 : image Docker + HEROKU + modèle dans les artefacts
+# AWS EC2
+# AWS Api Gateway
+
+  #----------------------------------------------
+  #  Deploy on HEROKU
+  #----------------------------------------------
+  build:
+    runs-on: ubuntu-22.04
+    needs: [run_tests]
+    environment:
+      name: production
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.13.15 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+      - name: deploy to ubuntu server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HEROKU_PROD_HOST}}
+          username: ${{secrets.HEROKU_PROD_USERNAME}}
+          password: ${{secrets.HEROKU_PROD_PASSWORD}}
+          script: |
+            cd app/src
+            git pull
+            echo ${{secrets.HEROKU_PROD_PASSWORD}} | sudo -S systemctl restart ${{secrets.HEROKU_APP_NAME}}
