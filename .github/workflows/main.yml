@@ -31,7 +31,6 @@ jobs:
           virtualenvs-in-project: true
           virtualenvs-path: .venv
           installer-parallel: true
-
       #----------------------------------------------
       #  load cached venv if cache exists
       #----------------------------------------------
@@ -58,7 +57,7 @@ jobs:
       - name: Run tests
         run: |
           source .venv/bin/activate
-          pytest tests/
+          pytest --cov-report= --cov=app -n auto tests/
 #
 #  deploy:
 #    runs-on: ubuntu-latest
