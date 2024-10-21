@@ -16,7 +16,7 @@ async def root():
     Page d'accueil
     :return:
     """
-    return {"message": "Hello World"}
+    return {"message": "Hello World, updated by CI/CD"}
 
 
 @app.get("/posts/")
