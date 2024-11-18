@@ -41,3 +41,11 @@ https://les-enovateurs.com/gitflow-workflow-git-incontournableprojets-de-qualite
 - pyenv install --list
 - pyenv install 3.12.7
 - poetry env use $(pyenv which python)
+
+## Docker Compose
+- Files :
+  - [Dockerfile](Dockerfile)
+  - [compose.yaml](compose.yaml)
+- BUILD + RUN :
+  - ```docker compose up --build```
+  -

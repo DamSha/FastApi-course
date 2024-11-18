@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 # https://www.youtube.com/watch?v=0sOvCWFmrtA
@@ -21,15 +21,29 @@ app = FastAPI(
     version="0.1.1",
 )
 
-app.mount(
-    "/report_pytest",
-    StaticFiles(directory="reports/pytests/", html=True),
+
+origins = [
+    # "http://localhost",
+    "http://localhost:8000",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-app.mount(
-    "/report_coverage",
-    StaticFiles(directory="reports/test_coverage/", html=True),
-)
+
+# app.mount(
+#     "/report_pytest",
+#     StaticFiles(directory="reports/pytests/", html=True),
+# )
+#
+# app.mount(
+#     "/report_coverage",
+#     StaticFiles(directory="reports/test_coverage/", html=True),
+# )
 
 
 class Post(BaseModel):
