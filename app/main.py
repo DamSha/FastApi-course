@@ -1,5 +1,3 @@
-import importlib
-
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -23,8 +21,15 @@ app = FastAPI(
     version="0.1.1",
 )
 
-app.mount('/report_pytest', StaticFiles(directory="reports/pytests/", html=True))
-app.mount('/report_coverage', StaticFiles(directory="reports/test_coverage/", html=True))
+app.mount(
+    "/report_pytest",
+    StaticFiles(directory="reports/pytests/", html=True),
+)
+
+app.mount(
+    "/report_coverage",
+    StaticFiles(directory="reports/test_coverage/", html=True),
+)
 
 
 class Post(BaseModel):
@@ -47,7 +52,7 @@ async def get_posts():
     Get all posts
     :return:
     """
-    return {"message": f"all posts"}
+    return {"message": "all posts"}
 
 
 @app.post("/posts/", tags=["Posts"])

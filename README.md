@@ -16,3 +16,28 @@
 - Utilisation de Git flow
 https://les-enovateurs.com/gitflow-workflow-git-incontournableprojets-de-qualite
 ![git flow](docs/git_flow.png)
+
+## Git Pre-commit
+### Installation
+- ```poetry add black flake8 isort bandit pre-commit --group dev```
+- ```pre-commit sample-config > .pre-commit-config.yaml```
+- Modifier [.pre-commit-config.yaml](.pre-commit-config.yaml)
+- Installer les pre-commit du fichier config :
+- ```pre-commit install```
+- Lancer les tests
+- ```pre-commit run -a```
+### Auto-Update régulier
+- ```pre-commit autoupdate```
+### Problème
+- Supprimer le git hooks
+- ```pre-commit clean```
+- Installer le git hooks
+- ```pre-commit install```
+- Réinstaller les hooks
+- ```pre-commit install --install-hooks```
+
+## PyEnv
+- pyenv update
+- pyenv install --list
+- pyenv install 3.12.7
+- poetry env use $(pyenv which python)

@@ -1,21 +1,22 @@
 import secrets
 
 import uvicorn
-from fastapi import FastAPI, Depends, HTTPException, Response, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, FastAPI, HTTPException, Response, status
 from fastapi.requests import Request
+from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
 from slowapi.util import get_remote_address
-from slowapi.errors import RateLimitExceeded
 
 app = FastAPI()
 # Add Rate Limiter
 # Max 3/sec : 1 token_expired + 1 get_token + 1 API call
-limiter = Limiter(key_func=get_remote_address,
-                  default_limits=["3/second"],
-                  )
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=["3/second"],
+)
 # limiter = Limiter(key_func=get_remote_address)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
@@ -26,7 +27,7 @@ app.add_middleware(SlowAPIMiddleware)
 # Encrypted Tokens from the database
 token = secrets.token_urlsafe(32)
 print("token:", token)
-api_keys = [token, 'GS7CBVwKjB5dGbqQ-iv-iTbvBHKwn5N58MF_cEp-W4o']
+api_keys = [token, "GS7CBVwKjB5dGbqQ-iv-iTbvBHKwn5N58MF_cEp-W4o"]
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -51,14 +52,14 @@ async def root(request: Request, response: Response):
 
 @app.get("/health_check")
 # @limiter.exempt
-async def root(request: Request, response: Response):
+async def health_check(request: Request, response: Response):
     # Do Health Check...
     return {"message": "Health Check OK !"}
 
 
 @app.get("/posts/", dependencies=[Depends(api_key_auth)])
 async def get_posts(request: Request, response: Response) -> dict:
-    return {"message": f"all posts"}
+    return {"message": "all posts"}
 
 
 @app.post("/posts/")
