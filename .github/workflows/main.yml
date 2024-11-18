@@ -8,6 +8,9 @@ on:
 jobs:
   run_tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13" ]
     environment:
       name: testing
     steps:
@@ -16,11 +19,11 @@ jobs:
       #----------------------------------------------
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Set up python
+      - name: Set up python ${{ matrix.python-version }}
         id: setup-python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13.0'
+          python-version: ${{ matrix.python-version }}
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
@@ -39,7 +42,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
       #----------------------------------------------
       # install dependencies if cache does not exist
       #----------------------------------------------
@@ -70,9 +73,6 @@ jobs:
 # AWS EC2
 # AWS Api Gateway
 
-  #----------------------------------------------
-  #  Deploy on HEROKU
-  #----------------------------------------------
   build:
     runs-on: ubuntu-22.04
     needs: [run_tests]
@@ -95,3 +95,13 @@ jobs:
 #            cd app/src
 #            git pull
 #            echo ${{secrets.HEROKU_PROD_PASSWORD}} | sudo -S systemctl restart ${{secrets.HEROKU_APP_NAME}}
+
+
+        #----------------------------------------------
+        #  Deploy to HEROKU (manual)
+        #----------------------------------------------
+        # curl https://cli-assets.heroku.com/install.sh | sh
+        # heroku login
+        # heroku git:clone -a /var/www/${{secrets.HEROKU_APP_NAME}}
+        # cd /var/www/${{secrets.HEROKU_APP_NAME}}
+        #
