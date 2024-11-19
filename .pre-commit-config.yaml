@@ -11,15 +11,18 @@ repos:
     -   id: check-added-large-files
     -   id: check-yaml
     -   id: check-toml
--   repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 24.10.0
-    hooks:
-    -   id: black
-        language_version: python3.12
+# BLACK
+#-   repo: https://github.com/psf/black-pre-commit-mirror
+#    rev: 24.10.0
+#    hooks:
+#    -   id: black
+#        language_version: python3.12
+# isort
 -   repo: https://github.com/pycqa/isort
     rev: 5.13.2
     hooks:
     -   id: isort
+# flake8
 -   repo: https://github.com/pycqa/flake8
     rev: 7.1.1
     hooks:
@@ -31,12 +34,12 @@ repos:
     - id: bandit
       args: [ "-c", "pyproject.toml" ]
       additional_dependencies: [ "bandit[toml]" ]
-# RUFF LINTER
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.7.4
-  hooks:
-    # Run the linter.
-    - id: ruff
-      args: [ --fix ]
-    # Run the formatter.
-    - id: ruff-format
+# RUFF LINTER + FORMAT
+#- repo: https://github.com/astral-sh/ruff-pre-commit
+#  rev: v0.7.4
+#  hooks:
+#    # Run the linter.
+#    - id: ruff
+#      args: [ --fix ]
+#    # Run the formatter.
+#    - id: ruff-format
