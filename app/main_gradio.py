@@ -84,7 +84,6 @@ with gr.Blocks() as demo:
 app = gr.mount_gradio_app(app=app,
                           blocks=demo,
                           path="/gradio-demo",
-                          server_port=5000,
                           )
 
 if __name__ == "__main__":
