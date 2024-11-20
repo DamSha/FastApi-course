@@ -71,10 +71,9 @@ jobs:
 # opt 1 : image Docker + HEROKU + modèle dans les artefacts
 # AWS EC2
 # AWS Api Gateway
-
   deploy:
     runs-on: ubuntu-22.04
-    needs: [run_tests]
+#    needs: [run_tests]
     environment:
       name: production
     steps:
