@@ -1,3 +1,9 @@
+---
+title: FastAPI-course
+app_file: app/main_gradio.py
+sdk: gradio
+sdk_version: 5.6.0
+---
 # FastAPI Course
 [![Coverage Status](https://coveralls.io/repos/github/DamSha/FastApi-course/badge.svg?branch=main)](https://coveralls.io/github/DamSha/FastApi-course?branch=main)
 ----
@@ -49,3 +55,6 @@ https://les-enovateurs.com/gitflow-workflow-git-incontournableprojets-de-qualite
 - BUILD + RUN :
   - ```docker compose up --build```
   -
+
+## Server Monitoring
+- https://metrics.librato.com/s/public/wwmvy0ns1

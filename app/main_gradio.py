@@ -1,5 +1,6 @@
 import gradio as gr
-import uvicorn
+
+# import uvicorn
 from fastapi import FastAPI
 
 description = """
@@ -81,10 +82,16 @@ with gr.Blocks() as demo:
                        inputs=[tags_output],
                        outputs=[tags_selected])
 
-app = gr.mount_gradio_app(app=app,
-                          blocks=demo,
-                          path="/gradio-demo",
-                          )
+
+# app = gr.mount_gradio_app(app=app,
+#                           blocks=demo,
+#                           path="/gradio-demo",
+#                           )
 
 if __name__ == "__main__":
-    uvicorn.run(app)
+    # uvicorn.run(app)
+    demo.launch()
+
+# gradio deploy
+# https://huggingface.co/spaces/DaamShaa/fastapi-course
+# https://daamshaa-fastapi-course.hf.space/
