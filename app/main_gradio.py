@@ -3,12 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 
 description = """
-# Test FastAPI to do awesome stuff. 🚀
-## Usage
-- POST to **/path-to-test**
-- with body/message
-## Security
-- Rate Limit : **3/second max**
+# Test FastAPI avec Gradio
 ## Author
 - Damien Chauvet
 """
@@ -57,7 +52,7 @@ with gr.Blocks() as demo:
     with gr.Row():
         with gr.Column(scale=1, min_width=200):
             gr.HTML("<h1>Bienvenue !</h1>")
-            gr.HTML("<p>Tags prédiction !</p>")
+            gr.HTML("<p>Poser votre question pour produire des Tags !</p>")
             gr.HTML("<hr>")
     with gr.Row():
         with gr.Column(scale=1, min_width=200):
@@ -74,17 +69,17 @@ with gr.Blocks() as demo:
             predict_button = gr.Button("Prédire des Tags")
             tags_output = gr.Checkboxgroup(label="Résultats", interactive=True)
 
-predict_button.click(
-    fn=prediction_fn,
-    inputs=[title_input, body_input],
-    outputs=[tags_output],
-)
-sample_input1.click(fn=sample_input_fn, outputs=[title_input, body_input])
-sample_input1.click(fn=sample_input_fn, outputs=[title_input, body_input])
-sample_input1.click(fn=sample_input_fn, outputs=[title_input, body_input])
-tags_output.select(fn=select_tag_fn,
-                   inputs=[tags_output],
-                   outputs=[tags_selected])
+    predict_button.click(
+        fn=prediction_fn,
+        inputs=[title_input, body_input],
+        outputs=[tags_output],
+    )
+    sample_input1.click(fn=sample_input_fn, outputs=[title_input, body_input])
+    sample_input1.click(fn=sample_input_fn, outputs=[title_input, body_input])
+    sample_input1.click(fn=sample_input_fn, outputs=[title_input, body_input])
+    tags_output.select(fn=select_tag_fn,
+                       inputs=[tags_output],
+                       outputs=[tags_selected])
 
 app = gr.mount_gradio_app(app, demo, path="/gradio-demo")
 
