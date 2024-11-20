@@ -81,7 +81,11 @@ with gr.Blocks() as demo:
                        inputs=[tags_output],
                        outputs=[tags_selected])
 
-app = gr.mount_gradio_app(app, demo, path="/gradio-demo")
+app = gr.mount_gradio_app(app=app,
+                          blocks=demo,
+                          path="/gradio-demo",
+                          server_port=5000,
+                          )
 
 if __name__ == "__main__":
     uvicorn.run(app)
