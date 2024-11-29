@@ -1,8 +1,6 @@
 import re
 import string
-import time
 
-import joblib
 import numpy as np
 import pandas as pd
 
@@ -79,19 +77,12 @@ lem_allowed_postags_NV = ['NOUN', 'VERB']
 lem_allowed_postags_N = ['NOUN']
 tags_transformer = TagsTransformer()
 
-lem_model = spacy.load("en_core_web_md", disable=['parser', 'ner'])
-vectorizer = joblib.load('./artifacts/cv.pkl')
-transformer = joblib.load('./artifacts/tfidf.pkl')
-
-
 class TextPreprocessor:
     def __init__(self):
 #         t1 = time.perf_counter()
         self.lem_allowed_postags = lem_allowed_postags_N
         self.stop_words = stop_words.STOP_WORDS
-        self.lem_model = lem_model
-        self.vectorizer = vectorizer
-        self.transformer = transformer
+        self.lem_model = spacy.load("en_core_web_md", disable=['parser', 'ner'])
 #         print('TextPreprocessor __init__ ', f"{time.perf_counter() - t1:.1f}")
 
     def extract_sentences_from_body_transformer(self, _df: np.array):
@@ -174,10 +165,13 @@ class TextPreprocessor:
         return processed_words
 
     def vectorize(self, _data):
+        import joblib
+        vectorizer = joblib.load('./artifacts/cv.pkl')
+        transformer = joblib.load('./artifacts/tfidf.pkl')
 #         t1 = time.perf_counter()
         _data = _data.split(" ")
-        _data_vect = self.vectorizer.transform(_data)  # Todo: Récupérer le vectorizer dans les artifacts / code
-        _data_vect = self.transformer.transform(_data_vect)  # Todo: Récupérer le transformer dans les artifacts / code
+        _data_vect = vectorizer.transform(_data)
+        _data_vect = transformer.transform(_data_vect)
 #         print('vectorize ', f"{time.perf_counter() - t1:.1f}")
         return _data_vect
 
@@ -235,30 +229,30 @@ class TextPreprocessor:
 #         print('preprocess_text ', f"{time.perf_counter() - t1:.1f}")
         return texts_preprocessed
 
-
-if __name__ == '__main__':
-    preprocessor = TextPreprocessor()
-    pipeline = preprocessor.get_pipeline()
-    title = "Why am I seeing Flutter EGL_emulation app_time_stats in the log when running on an Android 12 emulator?"
-    body = ("<p>When testing a Android Flutter app on an emulator running Android 12, "
-            "I'm seeing lines like these in the logs at regular intervals "
-            "(approximately every second):</p> <pre><code>D/EGL_emulation(32175): "
-            "app_time_stats: avg=312.93ms min=133.69ms max=608.57ms count=4 </code></pre> "
-            "<p>What do they mean, and how do I turn them off? I've never seen them on Android "
-            "11 emulators, so I'm guessing it has something to do with Android 12?</p>")
-    x_preprocessed_test = preprocessor.preprocess_text(title, body)
-    print(x_preprocessed_test)
-
-    # Charge modele fitted
-    loaded_model = joblib.load("./artifacts/model_supervise_proba.pkl")
-    y_proba = loaded_model.predict_proba(x_preprocessed_test[0])
-    all_tags = pd.read_csv('./artifacts/all_tags.csv', index_col=0)['0'].tolist()
-    y_proba_df = pd.DataFrame(y_proba, columns=all_tags)
-
-    tags = y_proba_df.iloc[0].sort_values(ascending=False).head(5).reset_index().rename(
-        columns={'index': 'tag', 0: 'proba'})
-    tags.proba = tags.proba.astype(float)
-    tags = tags[tags.proba > .1].head(5)
-
-    print(y_proba_df)
-    print(tags)
+#
+# if __name__ == '__main__':
+#     preprocessor = TextPreprocessor()
+#     pipeline = preprocessor.get_pipeline()
+#     title = "Why am I seeing Flutter EGL_emulation app_time_stats in the log when running on an Android 12 emulator?"
+#     body = ("<p>When testing a Android Flutter app on an emulator running Android 12, "
+#             "I'm seeing lines like these in the logs at regular intervals "
+#             "(approximately every second):</p> <pre><code>D/EGL_emulation(32175): "
+#             "app_time_stats: avg=312.93ms min=133.69ms max=608.57ms count=4 </code></pre> "
+#             "<p>What do they mean, and how do I turn them off? I've never seen them on Android "
+#             "11 emulators, so I'm guessing it has something to do with Android 12?</p>")
+#     x_preprocessed_test = preprocessor.preprocess_text(title, body)
+#     print(x_preprocessed_test)
+#
+#     # Charge modele fitted
+#     loaded_model = joblib.load("./artifacts/model_supervise_proba.pkl")
+#     y_proba = loaded_model.predict_proba(x_preprocessed_test[0])
+#     all_tags = pd.read_csv('./artifacts/all_tags.csv', index_col=0)['0'].tolist()
+#     y_proba_df = pd.DataFrame(y_proba, columns=all_tags)
+#
+#     tags = y_proba_df.iloc[0].sort_values(ascending=False).head(5).reset_index().rename(
+#         columns={'index': 'tag', 0: 'proba'})
+#     tags.proba = tags.proba.astype(float)
+#     tags = tags[tags.proba > .1].head(5)
+#
+#     print(y_proba_df)
+#     print(tags)

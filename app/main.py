@@ -9,8 +9,6 @@ from starlette.responses import JSONResponse
 
 from app.suggestor.suggestor import Suggestor
 
-suggestor = Suggestor()
-
 # https://www.youtube.com/watch?v=0sOvCWFmrtA
 description = """
 # Test FastAPI to do awesome stuff. 🚀
@@ -78,6 +76,7 @@ async def predict_supervise(title_input, body_input):
     Get predict supervise
     :return: {"message": [predictions]}
     """
+    suggestor = Suggestor()
     results_s = suggestor.predict(title_input, body_input, True, .1)
     predictions_s = [[f"{p["tag"]}", round(p["proba"], 3)] for p in results_s.to_dict(orient="records")]
     return JSONResponse(content=jsonable_encoder(predictions_s))
