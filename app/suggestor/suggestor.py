@@ -10,7 +10,7 @@ preprocessor = TextPreprocessor()
 # Charge modele fitted
 model_supervise = joblib.load("./artifacts/model_supervise_proba.pkl")
 all_tags = pd.read_csv('./artifacts/all_tags.csv', index_col=0)['0'].tolist()
-model_non_supervise = joblib.load("./artifacts/model_non_supervise.pkl")
+# model_non_supervise = joblib.load("./artifacts/model_non_supervise.pkl")
 
 
 class Suggestor:
