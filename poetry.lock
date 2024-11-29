@@ -364,6 +364,20 @@ dnspython = ">=2.0.0"
 idna = ">=2.0.0"
 
 [[package]]
+name = "en_core_web_md"
+version = "3.8.0"
+description = "English pipeline optimized for CPU. Components: tok2vec, tagger, parser, senter, ner, attribute_ruler, lemmatizer."
+optional = false
+python-versions = "*"
+files = [
+    {file = "en_core_web_md-3.8.0.tar.gz", hash = "sha256:504fe70715dca9464bf11e385fbe80e92ae127394df3f9c45242926082425551"},
+]
+
+[package.source]
+type = "url"
+url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.8.0/en_core_web_md-3.8.0.tar.gz"
+
+[[package]]
 name = "fastapi"
 version = "0.115.5"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
@@ -2385,4 +2399,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "3.12.7"
-content-hash = "0a92a5f762cb3661981fb0b9541c117de7e4624715a2fcbd25dae63029228c46"
+content-hash = "1d509a4e18ab5e3891570c43abfd794350ab377cc3a0f4bd67e4f745505becfa"
