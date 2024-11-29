@@ -29,29 +29,29 @@ class TagsTransformer:
         self.reverse_replacements = {v: k for k, v in self.replacements.items()}
 
     def filter_c_family(self, _data: str) -> str:
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
         for pattern, replacement in self.replacements.items():
             _data = re.sub(re.escape(pattern), replacement, _data)
-#             print('__init__ ', f"{time.perf_counter() - t1:.1f}")
+        #             print('__init__ ', f"{time.perf_counter() - t1:.1f}")
         return _data
 
     def unfilter_c_family(self, _tags: list) -> list:
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
 
         def replace_tags(text):
-#             t1 = time.perf_counter()
+            #             t1 = time.perf_counter()
             for pattern, replacement in self.reverse_replacements.items():
                 text = re.sub(re.escape(pattern), replacement, text)
-#                 print('filter_c_family ', f"{time.perf_counter() - t1:.1f}")
+            #                 print('filter_c_family ', f"{time.perf_counter() - t1:.1f}")
             return text
 
         _data = pd.Series(_tags).map(lambda x: " ".join(x))
         _data = _data.map(replace_tags)
-#         print('unfilter_c_family ', f"{time.perf_counter() - t1:.1f}")
+        #         print('unfilter_c_family ', f"{time.perf_counter() - t1:.1f}")
         return [x.split(" ") for x in _data]
 
     def compute_tags(self, _tags) -> pd.Series:
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
         """ Transforme les Tags en liste séparé par un espace
         :param _data_source: DataFrame source contenant les Tags
         :return: Un vecteur contenant les Tags
@@ -63,10 +63,12 @@ class TagsTransformer:
         _tags = _tags.map(lambda x: re.sub('<|>', '', x))
         _tags = _tags.map(lambda x: self.filter_c_family(x))
         _tags = _tags.map(lambda x: x.split(" "))
-#         print('replace_tags ', f"{time.perf_counter() - t1:.1f}")
+        #         print('replace_tags ', f"{time.perf_counter() - t1:.1f}")
         return _tags
+
+
 #         print('compute_tags ', f"{time.perf_counter() - t1:.1f}")
-        # return _tags.values.reshape(-1, 1)
+# return _tags.values.reshape(-1, 1)
 
 
 # tags_transformer.filter_c_family("c++ f#")
@@ -77,41 +79,43 @@ lem_allowed_postags_NV = ['NOUN', 'VERB']
 lem_allowed_postags_N = ['NOUN']
 tags_transformer = TagsTransformer()
 
+
 class TextPreprocessor:
     def __init__(self):
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
         self.lem_allowed_postags = lem_allowed_postags_N
         self.stop_words = stop_words.STOP_WORDS
         self.lem_model = spacy.load("en_core_web_md", disable=['parser', 'ner'])
-#         print('TextPreprocessor __init__ ', f"{time.perf_counter() - t1:.1f}")
+
+    #         print('TextPreprocessor __init__ ', f"{time.perf_counter() - t1:.1f}")
 
     def extract_sentences_from_body_transformer(self, _df: np.array):
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
         _df = _df.map(lambda x: self.extract_sentences_from_body(str(x)))
-#         print('extract_sentences_from_body_transformer ', f"{time.perf_counter() - t1:.1f}")
+        #         print('extract_sentences_from_body_transformer ', f"{time.perf_counter() - t1:.1f}")
         return _df.values.reshape(-1, 1)
 
     def extract_sentences_from_body(self, _data: str) -> str:
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
         doc = html.fromstring(_data)
         paragraphes = doc.cssselect('p')
         if len(paragraphes) == 0:
-#             print('extract_sentences_from_body ', f"{time.perf_counter() - t1:.1f}")
+            #             print('extract_sentences_from_body ', f"{time.perf_counter() - t1:.1f}")
             return ""
-#         print('extract_sentences_from_body ', f"{time.perf_counter() - t1:.1f}")
+        #         print('extract_sentences_from_body ', f"{time.perf_counter() - t1:.1f}")
         return " ".join([p.text_content() for p in paragraphes if p.text_content() is not None])
 
     def clean_sentence_transformer(self, _df: np.array) -> pd.DataFrame:
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
         _df = pd.DataFrame(_df)
         _df = _df.iloc[:, 0]
         _df = _df.map(lambda x: self.clean_sentence(str(x)))
         _df = _df.values.reshape(-1, 1)
-#         print('clean_sentence_transformer ', f"{time.perf_counter() - t1:.1f}")
+        #         print('clean_sentence_transformer ', f"{time.perf_counter() - t1:.1f}")
         return _df
 
     def clean_sentence(self, sentence: str) -> str:
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
         # Convert to lowercase
         sentence_cleaned = sentence.lower()
 
@@ -138,11 +142,11 @@ class TextPreprocessor:
             sentence_cleaned
         ).strip()
 
-#         print('clean_sentence ', f"{time.perf_counter() - t1:.1f}")
+        #         print('clean_sentence ', f"{time.perf_counter() - t1:.1f}")
         return sentence_cleaned
 
     def tokenize_for_bow(self, sentence: str) -> str:
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
         # Define the set of useless words for faster lookup
         useless_words_set = {"use", "get", "create", "way", "find", "return", "add", "work", "error", "issue", "file",
                              "code", "try", "want", "follow", "need", "run", "problem", "know", "value", "make", "fix"}
@@ -161,22 +165,22 @@ class TextPreprocessor:
         ]
         # Join the processed words into a single string
         processed_words = ' '.join(processed_words)
-#         print('tokenize_for_bow ', f"{time.perf_counter() - t1:.1f}")
+        #         print('tokenize_for_bow ', f"{time.perf_counter() - t1:.1f}")
         return processed_words
 
     def vectorize(self, _data):
         import joblib
         vectorizer = joblib.load('./artifacts/cv.pkl')
         transformer = joblib.load('./artifacts/tfidf.pkl')
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
         _data = _data.split(" ")
         _data_vect = vectorizer.transform(_data)
         _data_vect = transformer.transform(_data_vect)
-#         print('vectorize ', f"{time.perf_counter() - t1:.1f}")
+        #         print('vectorize ', f"{time.perf_counter() - t1:.1f}")
         return _data_vect
 
     def get_pipeline(self):
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
         # Clean Title
         title_transformer = FunctionTransformer(self.clean_sentence_transformer, validate=False)
 
@@ -192,11 +196,10 @@ class TextPreprocessor:
             ('body_transformer', body_transformer, 'Body')
         ])
 
-
         def combine_fn(_data: np.ndarray):
-#             t1 = time.perf_counter()
+            #             t1 = time.perf_counter()
             _data = [' '.join(map(str, row)) for row in _data]
-#             print('combine_fn ', f"{time.perf_counter() - t1:.1f}")
+            #             print('combine_fn ', f"{time.perf_counter() - t1:.1f}")
             return _data
 
         # Combine Title + Body
@@ -219,14 +222,14 @@ class TextPreprocessor:
             ("vectorize", vectorize_transformer),
         ])
 
-#         print('get_pipeline ', f"{time.perf_counter() - t1:.1f}")
+        #         print('get_pipeline ', f"{time.perf_counter() - t1:.1f}")
         return pipeline_x
 
     def preprocess_text(self, _title: str, _body: str) -> pd.DataFrame:
-#         t1 = time.perf_counter()
+        #         t1 = time.perf_counter()
         x_texts = pd.DataFrame([[_title, _body]], columns=["Title", "Body"])
         texts_preprocessed = self.get_pipeline().fit_transform(x_texts)
-#         print('preprocess_text ', f"{time.perf_counter() - t1:.1f}")
+        #         print('preprocess_text ', f"{time.perf_counter() - t1:.1f}")
         return texts_preprocessed
 
 #
