@@ -57,7 +57,7 @@ async def root():
     return {"message": "Hello World, updated by CI/CD"}
 
 
-model_non_supervise = joblib.load("./models/model_non_supervise.pkl")
+# model_non_supervise = joblib.load("./models/model_non_supervise.pkl")
 
 
 @app.get("/predict/non_supervise", tags=["predict"])
