@@ -59,20 +59,20 @@ async def root():
 
 # model_non_supervise = joblib.load("./models/model_non_supervise.pkl")
 
+#
+# @app.get("/predict/non_supervise", tags=["predict"])
+# async def predict_non_supervise(title_input, body_input):
+#     """
+#     Get predict non supervise
+#     :return: {"message": [predictions]}
+#     """
+#     results_ns = suggestor.predict(title_input, body_input, False, .1)
+#     predictions_ns = [[f"{p["tag"]}", round(p["proba"], 3)] for p in results_ns.to_dict(orient="records")]
+#     return JSONResponse(content=jsonable_encoder(predictions_ns))
+#     # {"tags - non supervisé": json.dumps(predictions_ns)}
 
-@app.get("/predict/non_supervise", tags=["predict"])
-async def predict_non_supervise(title_input, body_input):
-    """
-    Get predict non supervise
-    :return: {"message": [predictions]}
-    """
-    results_ns = suggestor.predict(title_input, body_input, False, .1)
-    predictions_ns = [[f"{p["tag"]}", round(p["proba"], 3)] for p in results_ns.to_dict(orient="records")]
-    return JSONResponse(content=jsonable_encoder(predictions_ns))
-    # {"tags - non supervisé": json.dumps(predictions_ns)}
 
-
-@app.get("/predict/supervise", tags=["predict"])
+@app.get("/predict", tags=["predict"])
 async def predict_supervise(title_input, body_input):
     """
     Get predict supervise
