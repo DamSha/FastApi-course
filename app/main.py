@@ -1,6 +1,15 @@
+import json
+
+import joblib
 from fastapi import FastAPI
+from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from starlette.responses import JSONResponse
+
+from app.suggestor.suggestor import Suggestor
+
+suggestor = Suggestor()
 
 # https://www.youtube.com/watch?v=0sOvCWFmrtA
 description = """
@@ -48,20 +57,33 @@ async def root():
     return {"message": "Hello World, updated by CI/CD"}
 
 
-@app.get("/posts/", tags=["Posts"])
-async def get_posts():
-    """
-    Get all posts
-    :return:
-    """
-    return {"message": "all posts"}
+model_non_supervise = joblib.load("./models/model_non_supervise.pkl")
 
 
-@app.post("/posts/", tags=["Posts"])
-async def save_post(new_post: Post):
+@app.get("/predict/non_supervise", tags=["predict"])
+async def predict_non_supervise(title_input, body_input):
     """
-    Save a post
-    :param new_post:
-    :return:
+    Get predict non supervise
+    :return: {"message": [predictions]}
     """
-    return {"message": f"Hello {new_post.model_dump_json()}"}
+    results_ns = suggestor.predict(title_input, body_input, False, .1)
+    predictions_ns = [[f"{p["tag"]}", round(p["proba"], 3)] for p in results_ns.to_dict(orient="records")]
+    return JSONResponse(content=jsonable_encoder(predictions_ns))
+    # {"tags - non supervisé": json.dumps(predictions_ns)}
+
+
+@app.get("/predict/supervise", tags=["predict"])
+async def predict_supervise(title_input, body_input):
+    """
+    Get predict supervise
+    :return: {"message": [predictions]}
+    """
+    results_s = suggestor.predict(title_input, body_input, True, .1)
+    predictions_s = [[f"{p["tag"]}", round(p["proba"], 3)] for p in results_s.to_dict(orient="records")]
+    return JSONResponse(content=jsonable_encoder(predictions_s))
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("app.main:app", workers=4)

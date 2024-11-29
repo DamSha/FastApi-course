@@ -58,3 +58,16 @@ https://les-enovateurs.com/gitflow-workflow-git-incontournableprojets-de-qualite
 
 ## Server Monitoring
 - https://metrics.librato.com/s/public/wwmvy0ns1
+
+## API Routes :
+- /predict/supervise
+- /predict/non_supervise
+
+## Ajout de Git LFS pour les fichiers *.pkl
+https://git-lfs.com/
+- git lfs install
+- git lfs track "*.pkl"
+- git add .gitattributes
+- ...
+
+- test push > 100Mo...

@@ -11,6 +11,8 @@ services:
   server:
     build:
       context: .
+#    volumes:
+#
     ports:
       - 8000:8000
     networks:

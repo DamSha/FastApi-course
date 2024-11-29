@@ -1,5 +1,12 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
+exclude: | # Regex multiligne
+    (?x)(
+        ^tests/|
+        ^.idea/|
+        ^app/models/|
+        ^docs
+    )
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
@@ -43,3 +50,14 @@ repos:
 #      args: [ --fix ]
 #    # Run the formatter.
 #    - id: ruff-format
+# DockerFile
+- repo: https://github.com/pryorda/dockerfilelint-precommit-hooks
+  rev: v0.1.0
+  hooks:
+    - id: dockerfilelint
+# Github Actions
+- repo: https://github.com/sirosen/check-jsonschema
+  rev: 0.28.2
+  hooks:
+    - id: check-github-actions
+    - id: check-github-workflows

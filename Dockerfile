@@ -40,20 +40,20 @@ RUN #pip install --upgrade pip
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
-ARG UID=10001
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --home "/nonexistent" \
-    --shell "/sbin/nologin" \
-    --no-create-home \
-    --uid "${UID}" \
-    appuser
-
-RUN chown -R appuser /var/www/app
-
-# Switch to the non-privileged user to run the application.
-USER appuser
+#ARG UID=10001
+#RUN adduser \
+#    --disabled-password \
+#    --gecos "" \
+#    --home "/nonexistent" \
+#    --shell "/sbin/nologin" \
+#    --no-create-home \
+#    --uid "${UID}" \
+#    appuser
+#
+#RUN chown -R appuser /var/www/app
+#
+## Switch to the non-privileged user to run the application.
+#USER appuser
 
 COPY ./app /var/www/app
 
@@ -61,4 +61,5 @@ COPY ./app /var/www/app
 EXPOSE 8000
 
 # Run the application.
-CMD uvicorn 'main:app' --host=0.0.0.0 --port=8000 --workers=4
+#CMD fastapi 'dev' 'main_gradio.py'
+CMD uvicorn 'main_gradio:app' --host=0.0.0.0 --port=8000 --workers=4
