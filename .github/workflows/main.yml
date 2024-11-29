@@ -68,38 +68,42 @@ jobs:
 #      # TODO : choose where to deploy
 #      # AWS ECS/EC2/Lambda, Heroku, Api Hoster (RapidAPI...) ?
 #      #----------------------------------------------
-# opt 1 : image Docker + HEROKU + modèle dans les artefacts
-# AWS EC2
-# AWS Api Gateway
-  deploy:
-    runs-on: ubuntu-22.04
-#    needs: [run_tests]
-    environment:
-      name: production
-    steps:
-      - uses: actions/checkout@v4
-      - uses: akhileshns/heroku-deploy@v3.13.15
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-          heroku_email: ${{secrets.HEROKU_EMAIL}}
-#      - name: deploy to ubuntu server
-#        uses: appleboy/ssh-action@master
+## opt 1 : image Docker + HEROKU + modèle dans les artefacts
+## AWS EC2
+## AWS Api Gateway
+
+
+#  deploy:
+#    runs-on: ubuntu-22.04
+##    needs: [run_tests]
+#    environment:
+#      name: production
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: akhileshns/heroku-deploy@v3.13.15
 #        with:
-#          host: ${{secrets.HEROKU_PROD_HOST}}
-#          username: ${{secrets.HEROKU_PROD_USERNAME}}
-#          password: ${{secrets.HEROKU_PROD_PASSWORD}}
-#          script: |
-#            cd app/src
-#            git pull
-#            echo ${{secrets.HEROKU_PROD_PASSWORD}} | sudo -S systemctl restart ${{secrets.HEROKU_APP_NAME}}
+#          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+#          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+#          heroku_email: ${{secrets.HEROKU_EMAIL}}
 
 
-        #----------------------------------------------
-        #  Deploy to HEROKU (manual)
-        #----------------------------------------------
-        # curl https://cli-assets.heroku.com/install.sh | sh
-        # heroku login
-        # heroku git:clone -a /var/www/${{secrets.HEROKU_APP_NAME}}
-        # cd /var/www/${{secrets.HEROKU_APP_NAME}}
-        #
+##      - name: deploy to ubuntu server
+##        uses: appleboy/ssh-action@master
+##        with:
+##          host: ${{secrets.HEROKU_PROD_HOST}}
+##          username: ${{secrets.HEROKU_PROD_USERNAME}}
+##          password: ${{secrets.HEROKU_PROD_PASSWORD}}
+##          script: |
+##            cd app/src
+##            git pull
+##            echo ${{secrets.HEROKU_PROD_PASSWORD}} | sudo -S systemctl restart ${{secrets.HEROKU_APP_NAME}}
+#
+#
+#        #----------------------------------------------
+#        #  Deploy to HEROKU (manual)
+#        #----------------------------------------------
+#        # curl https://cli-assets.heroku.com/install.sh | sh
+#        # heroku login
+#        # heroku git:clone -a /var/www/${{secrets.HEROKU_APP_NAME}}
+#        # cd /var/www/${{secrets.HEROKU_APP_NAME}}
+#        #
