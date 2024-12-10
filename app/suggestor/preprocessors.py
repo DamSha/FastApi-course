@@ -1,3 +1,5 @@
+import os
+import pathlib
 import re
 import string
 
@@ -12,6 +14,8 @@ from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.preprocessing import FunctionTransformer
 from spacy.lang.en import stop_words
 
+ARTIFACT_PATH = os.path.join(pathlib.Path(__file__).parent.absolute(),
+                             'artifacts')
 
 class TagsTransformer:
     def __init__(self):
@@ -171,8 +175,8 @@ class TextPreprocessor:
 
     def vectorize(self, _data):
         import joblib
-        vectorizer = joblib.load('./artifacts/cv.pkl')
-        transformer = joblib.load('./artifacts/tfidf.pkl')
+        vectorizer = joblib.load(pathlib.Path(ARTIFACT_PATH, "cv.pkl"))
+        transformer = joblib.load(pathlib.Path(ARTIFACT_PATH, "tfidf.pkl"))
         #         t1 = time.perf_counter()
         _data = _data.split(" ")
         _data_vect = vectorizer.transform(_data)
