@@ -85,7 +85,8 @@ class TextPreprocessor:
         #         t1 = time.perf_counter()
         self.lem_allowed_postags = lem_allowed_postags_N
         self.stop_words = stop_words.STOP_WORDS
-        self.lem_model = spacy.load("en_core_web_md", disable=['parser', 'ner'])
+        self.lem_model = spacy.load("en_core_web_sm", disable=['parser', 'ner'])
+        # self.lem_model = spacy.load("en_core_web_md", disable=['parser', 'ner'])
 
     #         print('TextPreprocessor __init__ ', f"{time.perf_counter() - t1:.1f}")
 

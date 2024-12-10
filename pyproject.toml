@@ -18,7 +18,8 @@ cssselect = "^1.2.0"
 spacy = "^3.8.2"
 scikit-learn = "^1.5.2"
 pandas = "^2.2.3"
-en_core_web_md = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.8.0/en_core_web_md-3.8.0.tar.gz" }
+en_core_web_md = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0.tar.gz" }
+#en_core_web_md = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.8.0/en_core_web_md-3.8.0.tar.gz" }
 
 [tool.poetry.group.dev.dependencies]
 #bertopic = "^0.16.4"

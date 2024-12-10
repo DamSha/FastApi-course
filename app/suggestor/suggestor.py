@@ -1,5 +1,3 @@
-import time
-
 import joblib
 import pandas as pd
 
@@ -38,19 +36,19 @@ class Suggestor:
         return []
 
         # else:  # Non supervisé
-            # x_preprocessed = f"{str(title)} {str(body)}"
-            # topics = pd.DataFrame({}, columns=['similar_topics', 'similarity'])
-            # topics.similar_topics, topics.similarity = \
-            #     model_non_supervise.find_topics(x_preprocessed, top_n=5)
-            # topics = topics[topics.similarity > threshold]
-            #
-            # tags = pd.DataFrame({}, columns=['tag', 'proba'])
-            #
-            # for topic in topics.similar_topics:
-            #     words = model_non_supervise.get_topic(topic)
-            #     for word in words:
-            #         if float(word[1]) > threshold:
-            #             tags.loc[-1] = {"tag": word[0], "proba": word[1]}
-            #             tags.reset_index(drop=True, inplace=True)
-            # tags = tags.sort_values(by='proba',
-            #                         ascending=False).head(5).reset_index(drop=True)
+        # x_preprocessed = f"{str(title)} {str(body)}"
+        # topics = pd.DataFrame({}, columns=['similar_topics', 'similarity'])
+        # topics.similar_topics, topics.similarity = \
+        #     model_non_supervise.find_topics(x_preprocessed, top_n=5)
+        # topics = topics[topics.similarity > threshold]
+        #
+        # tags = pd.DataFrame({}, columns=['tag', 'proba'])
+        #
+        # for topic in topics.similar_topics:
+        #     words = model_non_supervise.get_topic(topic)
+        #     for word in words:
+        #         if float(word[1]) > threshold:
+        #             tags.loc[-1] = {"tag": word[0], "proba": word[1]}
+        #             tags.reset_index(drop=True, inplace=True)
+        # tags = tags.sort_values(by='proba',
+        #                         ascending=False).head(5).reset_index(drop=True)

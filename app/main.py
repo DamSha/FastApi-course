@@ -14,7 +14,7 @@ description = """
 # Test FastAPI to do awesome stuff. 🚀
 ## Usage
 - POST to **/path-to-test**
-- with body/message
+- with title/body
 ## Security
 - Rate Limit : **3/second max**
 ## Author
@@ -85,4 +85,4 @@ async def predict_supervise(title_input, body_input):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("app.main:app", workers=4)
+    uvicorn.run("app.main:app", workers=1)
