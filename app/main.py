@@ -40,6 +40,8 @@ app = FastAPI(
 #     allow_headers=["*"],
 # )
 
+suggestor = None
+
 
 class Post(BaseModel):
     title: str
@@ -52,6 +54,8 @@ async def root():
     Page d'accueil
     :return:
     """
+    global suggestor
+    suggestor = Suggestor()
     return {"message": "Hello World, updated by CI/CD"}
 
 
@@ -76,7 +80,8 @@ async def predict_supervise(title_input, body_input):
     Get predict supervise
     :return: {"message": [predictions]}
     """
-    suggestor = Suggestor()
+    global suggestor
+    suggestor = Suggestor() if suggestor is None else suggestor
     results_s = suggestor.predict(title_input, body_input, True, .1)
     predictions_s = [[f"{p["tag"]}", round(p["proba"], 3)] for p in results_s.to_dict(orient="records")]
     return JSONResponse(content=jsonable_encoder(predictions_s))
