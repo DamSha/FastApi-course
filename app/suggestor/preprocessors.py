@@ -14,7 +14,7 @@ from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.preprocessing import FunctionTransformer
 from spacy.lang.en import stop_words
 
-ARTIFACT_PATH = os.path.join(pathlib.Path(__file__).parent.absolute(),
+ARTIFACT_PATH = os.path.join(pathlib.Path(__file__).parent.parent.absolute(),
                              'artifacts')
 
 class TagsTransformer:
