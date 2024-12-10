@@ -87,7 +87,7 @@ async def predict_supervise(title_input, body_input):
     return JSONResponse(content=jsonable_encoder(predictions_s))
 
 
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run("app.main:app", workers=1)
+# if __name__ == "__main__":
+#     import uvicorn
+#
+#     uvicorn.run("app.main:app", workers=1)
